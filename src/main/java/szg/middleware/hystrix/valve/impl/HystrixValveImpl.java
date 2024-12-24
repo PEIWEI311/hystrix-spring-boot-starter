@@ -10,9 +10,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 
 import java.lang.reflect.Method;
 
-/**
- * Hystrix 的实现类，封装熔断逻辑
- */
+
 public class HystrixValveImpl extends HystrixCommand<Object> implements IValveService {
 
     private ProceedingJoinPoint jp;
@@ -29,20 +27,20 @@ public class HystrixValveImpl extends HystrixCommand<Object> implements IValveSe
         this.method = method;
         this.doHystrix = doHystrix;
 
-        // 动态设置超时时间
+
         Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("CustomGroup"))
                 .andCommandPropertiesDefaults(
                         HystrixCommandProperties.Setter()
                                 .withExecutionTimeoutInMilliseconds(doHystrix.timeoutValue())
                 );
 
-        return this.execute(); // 执行命令逻辑
+        return this.execute();
     }
 
     @Override
     protected Object run() throws Exception {
         try {
-            return jp.proceed(); // 执行被拦截的方法
+            return jp.proceed();
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }

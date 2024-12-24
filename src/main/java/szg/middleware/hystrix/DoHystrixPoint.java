@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
-/**
- * 切面类：拦截注解并调用 Hystrix 逻辑
- */
+
 @Aspect
 @Component
 public class DoHystrixPoint {
